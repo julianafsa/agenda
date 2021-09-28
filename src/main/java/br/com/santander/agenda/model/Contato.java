@@ -1,6 +1,5 @@
 package br.com.santander.agenda.model;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,8 +10,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,9 +24,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class Contato implements Serializable {
-
-	private static final long serialVersionUID = 1136960142029299111L;
+@Table(name = "contato")
+public class Contato {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -37,12 +38,15 @@ public class Contato implements Serializable {
 	private String apelido;
 
 	@OneToMany (mappedBy = "contato", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("contato")
 	private List<Telefone> telefones = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "contato",cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("contato")
 	private List<Endereco> enderecos = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "contato",cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("contato")
 	private List<Email> emails = new ArrayList<>();
 
 	protected Contato() {}

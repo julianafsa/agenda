@@ -1,4 +1,4 @@
-package br.com.santander.agenda.controller.form;
+package br.com.santander.agenda.model.form;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -23,4 +23,5 @@ public class LoginForm {
 	public UsernamePasswordAuthenticationToken converter() {
 		return new UsernamePasswordAuthenticationToken(email, password);
 	}
+	
 }

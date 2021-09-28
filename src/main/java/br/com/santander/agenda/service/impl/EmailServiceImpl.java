@@ -1,6 +1,7 @@
 package br.com.santander.agenda.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class EmailServiceImpl implements EmailService {
     }
 
     @Override
-    public Email getEmail(Integer id){
-        return repository.getById(id);
+    public Optional<Email> getEmail(Integer id){
+        return repository.findById(id);
     }
     
     @Override
@@ -31,5 +32,10 @@ public class EmailServiceImpl implements EmailService {
     public Email saveEmail(Email email) {
         return repository.save(email);
     }
+
+	@Override
+	public void deleteById(Integer id) {
+		repository.deleteById(id);
+	}
 
 }

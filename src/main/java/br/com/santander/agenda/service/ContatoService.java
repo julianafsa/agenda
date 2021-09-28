@@ -1,12 +1,13 @@
 package br.com.santander.agenda.service;
 
-import br.com.santander.agenda.model.Contato;
-
 import java.util.List;
+import java.util.Optional;
+
+import br.com.santander.agenda.model.Contato;
 
 public interface ContatoService {
 
-    Contato getContact(Integer id);
+    Optional<Contato> getContact(Integer id);
     //List<Contato> getByName(String name);
     List<Contato> getAll();
     Contato saveContact(Contato contato);

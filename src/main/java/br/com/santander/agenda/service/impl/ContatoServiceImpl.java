@@ -1,6 +1,7 @@
 package br.com.santander.agenda.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class ContatoServiceImpl implements ContatoService {
     }
 
     @Override
-    public Contato getContact(Integer id){
-        return repository.getById(id);
+    public Optional<Contato> getContact(Integer id){
+        return repository.findById(id);
     }
     
     @Override

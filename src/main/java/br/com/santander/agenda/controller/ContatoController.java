@@ -2,6 +2,7 @@ package br.com.santander.agenda.controller;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -28,12 +29,13 @@ public class ContatoController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Contato>> listContacts(){
-        return ResponseEntity.ok(contactService.getAll());
+    public ResponseEntity<List<Contato>> listar() {
+    	List<Contato> contatos = contactService.getAll();
+        return ResponseEntity.ok(contatos);
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<Contato> getContactById(@PathVariable Integer id){
+    public ResponseEntity<Optional<Contato>> getContactById(@PathVariable Integer id){
         return ResponseEntity.ok(contactService.getContact(id));
     }
 

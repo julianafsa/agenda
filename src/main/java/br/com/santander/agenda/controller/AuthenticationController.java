@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.santander.agenda.config.security.TokenService;
-import br.com.santander.agenda.controller.form.LoginForm;
 import br.com.santander.agenda.model.dto.TokenDto;
+import br.com.santander.agenda.model.form.LoginForm;
 
 @RestController
 @RequestMapping("/auth")
