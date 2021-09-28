@@ -55,6 +55,14 @@ public class EnderecoController {
 
     @PostMapping
     public ResponseEntity<EnderecoDto> salvar(@RequestBody @Valid EnderecoForm form, UriComponentsBuilder uriBuilder)  {
+		List<Endereco> enderecos = service.searchByEndereco(form.getRua(), form.getNumero(), form.getComplemento(),
+			form.getBairro(), form.getCidade(), form.getEstado(), form.getCep(), form.getTipo(), 
+			Integer.parseInt(form.getIdContato()));
+		if (!enderecos.isEmpty()) {
+			System.out.println("Cannot save duplicate address.");
+			return ResponseEntity.badRequest().build();
+		}
+    	
 		Endereco endereco = form.converter(contatoService);
 		if (endereco != null) {
 			service.saveEndereco(endereco);

@@ -22,26 +22,33 @@ import br.com.santander.agenda.service.ContatoService;
 @RequestMapping("/contatos")
 public class ContatoController {
 
-    private ContatoService contactService;
+    private ContatoService service;
 
     public ContatoController(ContatoService contatoService) {
-        this.contactService = contatoService;
+        this.service = contatoService;
     }
 
     @GetMapping
     public ResponseEntity<List<Contato>> listar() {
-    	List<Contato> contatos = contactService.getAll();
+    	List<Contato> contatos = service.getAll();
         return ResponseEntity.ok(contatos);
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<Optional<Contato>> getContactById(@PathVariable Integer id){
-        return ResponseEntity.ok(contactService.getContact(id));
+        return ResponseEntity.ok(service.getContact(id));
     }
 
     @PostMapping
     public ResponseEntity<Contato> saveContact(@RequestBody @Valid Contato contato)  {
-        Contato retorno = contactService.saveContact(contato);
+		List<Contato> contatos = service.searchByContato(contato.getNome(), contato.getSobrenome(), 
+			contato.getDataNascimento(), contato.getApelido());
+		if (!contatos.isEmpty()) {
+			System.out.println("Cannot save duplicate contact.");
+			return ResponseEntity.badRequest().build();
+		}
+    	
+        Contato retorno = service.saveContact(contato);
         URI uri = UriComponentsBuilder.fromPath("contato/{id}").buildAndExpand(contato.getId()).toUri();
         return ResponseEntity.created(uri).body(retorno);
     }

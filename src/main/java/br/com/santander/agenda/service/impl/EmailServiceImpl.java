@@ -38,4 +38,9 @@ public class EmailServiceImpl implements EmailService {
 		repository.deleteById(id);
 	}
 
+	@Override
+	public List<Email> searchByEmail(String email) {
+		return repository.searchByEmail(email);
+	}
+
 }

@@ -1,5 +1,6 @@
 package br.com.santander.agenda.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,4 +12,5 @@ public interface ContatoService {
     //List<Contato> getByName(String name);
     List<Contato> getAll();
     Contato saveContact(Contato contato);
+    List<Contato> searchByContato(String nome, String sobrenome, LocalDate dataNascimento, String apelido);
 }

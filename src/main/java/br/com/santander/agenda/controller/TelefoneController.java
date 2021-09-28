@@ -24,9 +24,11 @@ import br.com.santander.agenda.model.form.AtualizacaoTelefoneForm;
 import br.com.santander.agenda.model.form.TelefoneForm;
 import br.com.santander.agenda.service.ContatoService;
 import br.com.santander.agenda.service.TelefoneService;
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @RequestMapping("/telefones")
+@Log4j2
 public class TelefoneController {
 
     private TelefoneService service;
@@ -55,6 +57,13 @@ public class TelefoneController {
 
     @PostMapping
     public ResponseEntity<TelefoneDto> salvar(@RequestBody @Valid TelefoneForm form, UriComponentsBuilder uriBuilder)  {
+		List<Telefone> telefones = service.searchByTelefone(form.getDdd(), form.getNumero(), 
+			Integer.parseInt(form.getIdContato()));
+		if (!telefones.isEmpty()) {
+			System.out.println("Cannot save duplicate phone number.");
+			return ResponseEntity.badRequest().build();
+		}
+    	
 		Telefone telefone = form.converter(contatoService);
 		if (telefone != null) {
 			service.saveTelefone(telefone);

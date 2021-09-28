@@ -11,4 +11,5 @@ public interface TelefoneService {
     List<Telefone> getAll();
     Telefone saveTelefone(Telefone telefone);
     void deleteById(Integer id);
+	List<Telefone> searchByTelefone(String ddd, String numero, Integer idContato);
 }

@@ -11,4 +11,5 @@ public interface EmailService {
     List<Email> getAll();
     Email saveEmail(Email contato);
     void deleteById(Integer id);
+    List<Email> searchByEmail(String email);
 }

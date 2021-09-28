@@ -38,4 +38,9 @@ public class TelefoneServiceImpl implements TelefoneService {
 		repository.deleteById(id);
 	}
 
+	@Override
+	public List<Telefone> searchByTelefone(String ddd, String numero, Integer idContato) {
+		return repository.searchByTelefone(ddd, numero, idContato);
+	}
+
 }

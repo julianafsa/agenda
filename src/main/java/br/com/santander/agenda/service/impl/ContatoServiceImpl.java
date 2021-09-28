@@ -1,5 +1,6 @@
 package br.com.santander.agenda.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,5 +33,10 @@ public class ContatoServiceImpl implements ContatoService {
     public Contato saveContact(Contato contato) {
         return repository.save(contato);
     }
+
+	@Override
+	public List<Contato> searchByContato(String nome, String sobrenome, LocalDate dataNascimento, String apelido) {
+		return repository.searchByContato(nome, sobrenome, dataNascimento, apelido);
+	}
 
 }

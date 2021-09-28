@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import br.com.santander.agenda.enumerations.TipoEndereco;
 import br.com.santander.agenda.model.Endereco;
 import br.com.santander.agenda.repository.EnderecoRepository;
 import br.com.santander.agenda.service.EnderecoService;
@@ -36,6 +37,12 @@ public class EnderecoServiceImpl implements EnderecoService {
 	@Override
 	public void deleteById(Integer id) {
 		repository.deleteById(id);
+	}
+
+	@Override
+	public List<Endereco> searchByEndereco(String rua, String numero, String complemento, String bairro, String cidade,
+			String estado, String cep, TipoEndereco tipo, Integer idContato) {
+		return repository.searchByEndereco(rua, numero, complemento, bairro, cidade, estado, cep, tipo, idContato);
 	}
 
 }

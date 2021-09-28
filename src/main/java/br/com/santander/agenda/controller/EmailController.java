@@ -54,8 +54,13 @@ public class EmailController {
     }
 
     @PostMapping
-    public ResponseEntity<EmailDto> saveTelefone(@RequestBody @Valid EmailForm form, UriComponentsBuilder uriBuilder)  {
-		Email email = form.converter(contatoService);
+    public ResponseEntity<EmailDto> saveEmail(@RequestBody @Valid EmailForm form, UriComponentsBuilder uriBuilder)  {
+		List<Email> emails = service.searchByEmail(form.getEmail());
+		if (!emails.isEmpty()) {
+			System.out.println("Cannot save duplicate email.");
+			return ResponseEntity.badRequest().build();
+		}
+    	Email email = form.converter(contatoService);
 		if (email != null) {
 			service.saveEmail(email);
 	        URI uri = UriComponentsBuilder.fromPath("email").buildAndExpand(email.getId()).toUri();
