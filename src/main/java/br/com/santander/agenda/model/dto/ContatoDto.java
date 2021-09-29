@@ -12,12 +12,19 @@ public class ContatoDto {
 	private String sobrenome;
 	private LocalDate dataNascimento;
 	private String apelido;
+	private List<EnderecoDto> enderecos;
+	private List<TelefoneDto> telefones;
+	private List<EmailDto> emails;
 
-	public ContatoDto(String nome, String sobrenome, LocalDate dataNascimento, String apelido) {
+	public ContatoDto(String nome, String sobrenome, LocalDate dataNascimento, String apelido,
+		List<EnderecoDto> enderecos, List<TelefoneDto> telefones, List<EmailDto> emails) {
 		this.nome = nome;
 		this.sobrenome = sobrenome;
 		this.dataNascimento = dataNascimento;
 		this.apelido = apelido;
+		this.enderecos = enderecos;
+		this.telefones = telefones;
+		this.emails = emails;
 	}
 	
 	public ContatoDto(Contato contato) {
@@ -25,6 +32,9 @@ public class ContatoDto {
 		this.sobrenome = contato.getSobrenome();
 		this.dataNascimento = contato.getDataNascimento();
 		this.apelido = contato.getApelido();
+		this.enderecos = contato.getEnderecos().stream().map(EnderecoDto::new).collect(Collectors.toList());
+		this.telefones = contato.getTelefones().stream().map(TelefoneDto::new).collect(Collectors.toList());
+		this.emails = contato.getEmails().stream().map(EmailDto::new).collect(Collectors.toList());
 	}
 
 	public String getNome() {
@@ -42,11 +52,19 @@ public class ContatoDto {
 	public String getApelido() {
 		return apelido;
 	}
+	
+	public List<EnderecoDto> getEnderecos() {
+		return enderecos;
+	}
 
-	public Contato converte() {
-		return new Contato(nome, sobrenome, dataNascimento, apelido);
+	public List<TelefoneDto> getTelefones() {
+		return telefones;
 	}
 	
+	public List<EmailDto> getEmails() {
+		return emails;
+	}
+
 	public static List<ContatoDto> converter(List<Contato> contatos) {
 		return contatos.stream().map(ContatoDto::new).collect(Collectors.toList());
 	}

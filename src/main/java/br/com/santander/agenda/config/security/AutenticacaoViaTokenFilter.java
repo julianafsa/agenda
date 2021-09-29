@@ -12,17 +12,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import br.com.santander.agenda.model.User;
-import br.com.santander.agenda.repository.UserRepository;
+import br.com.santander.agenda.service.UserService;
 
 public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
 	private TokenService tokenService;
 	
-	private UserRepository userRepository;
+	private UserService userService;
 	
-	public AutenticacaoViaTokenFilter(TokenService tokenService, UserRepository usuarioRepository) {
+	public AutenticacaoViaTokenFilter(TokenService tokenService, UserService userService) {
 		this.tokenService = tokenService;
-		this.userRepository = usuarioRepository;
+		this.userService = userService;
 	}
 
 	@Override
@@ -43,11 +43,10 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
 
 	private void autenticarCliente(String token) {
 		String username = tokenService.getUserEmail(token);
-		User user = userRepository.findByEmail(username).get();
+		User user = userService.findUserByEmail(username).get();
 		UsernamePasswordAuthenticationToken authentication = 
 			new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
  		SecurityContextHolder.getContext().setAuthentication(authentication);
-		
 	}
 
 	private String recuperarToken(HttpServletRequest request) {

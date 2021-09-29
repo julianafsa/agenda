@@ -5,58 +5,37 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import br.com.santander.agenda.enumerations.TipoTelefone;
 import br.com.santander.agenda.model.Telefone;
 
 public class TelefoneDto {
 	
-	@JsonProperty("Contato")
-    private String contactFullName;
-
-	@JsonProperty("Número")
-	private String phoneNumber;
-	
-	@JsonProperty("Tipo")
-	private String phoneType;
+    private String ddd;
+    private String numero;
+    private TipoTelefone tipo;
     
-    protected TelefoneDto() {}
-    
-	public TelefoneDto(String ddd, String numero, String nome, String sobrenome, TipoTelefone tipo) {
-		this.phoneNumber = "(" + ddd + ") " + numero;
-		this.phoneType = tipo.getDescricao();
-		this.contactFullName = nome + " " + sobrenome;
+	public TelefoneDto(String ddd, String numero, TipoTelefone tipo) {
+		this.ddd = ddd;
+		this.numero = numero;
+		this.tipo = tipo;
 	}
 	
 	public TelefoneDto(Telefone telefone) {
-		this.phoneNumber = "(" + telefone.getDdd() + ") " + telefone.getNumero(); 
-		this.phoneType = telefone.getTipo().getDescricao();
-		this.contactFullName = telefone.getContato().getNome() + " " + telefone.getContato().getSobrenome();
+		this.ddd = telefone.getDdd();
+		this.numero = telefone.getNumero();
+		this.tipo = telefone.getTipo();
+	}	
+
+	public String getDdd() {
+		return ddd;
 	}
 
-	public String getPhoneNumber() {
-		return phoneNumber;
+	public String getNumero() {
+		return numero;
 	}
 
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
-	
-	public String getPhoneType() {
-		return phoneType;
-	}
-
-	public void setPhoneType(TipoTelefone phoneType) {
-		this.phoneType = phoneType.getDescricao();
-	}
-
-	public String getContactFullName() {
-		return contactFullName;
-	}
-
-	public void setFullName(String fullName) {
-		this.contactFullName = fullName;
+	public TipoTelefone getTipo() {
+		return tipo;
 	}
 
 	public static List<TelefoneDto> converter(List<Telefone> telefones) {

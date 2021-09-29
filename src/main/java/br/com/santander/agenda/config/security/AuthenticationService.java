@@ -1,7 +1,5 @@
 package br.com.santander.agenda.config.security;
 
-import java.util.Optional;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,11 +25,15 @@ public class AuthenticationService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		Optional<User> user = userService.findUserByEmail(username);
-		if (user.isPresent()) {
-			return user.get();
-		}
-		throw new UsernameNotFoundException("User not found");
+//		Optional<User> user = userService.findUserByEmail(username);
+//		if (user.isPresent()) {
+//			return user.get();
+//		}
+//		throw new UsernameNotFoundException("User not found");
+		User user = userService.findUserByEmail(username)
+				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+				user.getAuthorities());
 	}
 
 }

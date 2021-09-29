@@ -1,12 +1,12 @@
 -- password = 123456
 INSERT INTO user (name, email, password) VALUES 
-('Juliana','julianafsa@gmail.com','$2a$10$k8wQAkj8PDq2L/5DlUc64eUJhXXb8apvdCA/7harcxJcqR3DECWFO'); 
+('Juliana','juliana@email.com','$2a$10$k8wQAkj8PDq2L/5DlUc64eUJhXXb8apvdCA/7harcxJcqR3DECWFO'); 
 
---INSERT INTO role VALUES
---(null,'ROLE_USUARIO'),
---(null,'ROLE_ADM');
+INSERT INTO role (authority) VALUES
+('ROLE_USUARIO'),
+('ROLE_ADM');
 
---INSERT INTO user_roles VALUES (1,1);
+INSERT INTO user_roles VALUES (1,1);
 
 INSERT INTO contato (nome, sobrenome, data_nascimento, apelido) VALUES 
 ('Henrique', 'Viana', '1982-06-14','Henry'),

@@ -9,8 +9,8 @@ import br.com.santander.agenda.model.Contato;
 public interface ContatoService {
 
     Optional<Contato> getContact(Integer id);
-    //List<Contato> getByName(String name);
     List<Contato> getAll();
     Contato saveContact(Contato contato);
+    void deleteById(Integer id);
     List<Contato> searchByContato(String nome, String sobrenome, LocalDate dataNascimento, String apelido);
 }

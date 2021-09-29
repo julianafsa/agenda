@@ -3,34 +3,66 @@ package br.com.santander.agenda.model.dto;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
+import br.com.santander.agenda.enumerations.TipoEndereco;
 import br.com.santander.agenda.model.Endereco;
 
 public class EnderecoDto {
 	
-	@JsonProperty("Endereço")
-    private String address;
+	private String numero;
+	private String complemento;
+	private String bairro;
+	private String cidade;
+	private String estado;
+	private String cep;
+	private TipoEndereco tipo;
 	
-	@JsonProperty("Contato")
-    private String contactFullName;
+	public EnderecoDto(Endereco endereco) {
+		this.numero = endereco.getNumero();
+		this.complemento = endereco.getComplemento();
+		this.bairro = endereco.getBairro();
+		this.cidade = endereco.getCidade();
+		this.estado = endereco.getEstado();
+		this.cep = endereco.getCep();
+		this.tipo = endereco.getTipo();		
+	}
 	
-	public EnderecoDto(String address, String contactFullName) {
-		this.address = address;
-		this.contactFullName = contactFullName;
+	public EnderecoDto(String numero, String complemento, String bairro, String cidade, String estado, String cep,
+			TipoEndereco tipo) {
+		this.numero = numero;
+		this.complemento = complemento;
+		this.bairro = bairro;
+		this.cidade = cidade;
+		this.estado = estado;
+		this.cep = cep;
+		this.tipo = tipo;
+	}
+	
+	public String getNumero() {
+		return numero;
 	}
 
-	public EnderecoDto(Endereco endereco) {
-		this.address = 
-			endereco.getRua() + ", " +
-			endereco.getNumero() + ", " +
-			endereco.getComplemento() + ", " +
-			endereco.getBairro() + ". " +
-			endereco.getCidade() + "/ " +
-			endereco.getEstado() + "/ " +
-			endereco.getCep() + ". Tipo: " +
-			endereco.getTipo().getDescricao();
-		this.contactFullName = endereco.getContato().getNome() + " " + endereco.getContato().getSobrenome();
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public String getBairro() {
+		return bairro;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public String getEstado() {
+		return estado;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public TipoEndereco getTipo() {
+		return tipo;
 	}
 
 	public static List<EnderecoDto> converter(List<Endereco> enderecos) {

@@ -2,7 +2,6 @@ package br.com.santander.agenda.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,21 +13,23 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.santander.agenda.repository.UserRepository;
+import br.com.santander.agenda.service.UserService;
 
 @EnableWebSecurity
 public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 
 	private final AuthenticationService authService;
 	
-	@Autowired
-	private TokenService tokenService;
+	private final TokenService tokenService;
+	
+	private final UserService userService;
 	
 	@Autowired
-	private UserRepository userRepository;
-	
-	@Autowired
-	public SecurityConfigurations(AuthenticationService authService) {
+	public SecurityConfigurations(AuthenticationService authService,
+		TokenService tokenService, UserService userService) {
 		this.authService = authService;
+		this.tokenService = tokenService;
+		this.userService  = userService;
 	}
 	
 	/**
@@ -60,13 +61,22 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests()
-		.antMatchers(HttpMethod.POST, "/auth").permitAll()
-		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
-		.anyRequest().authenticated() // Qualquer outra requisição tem que estar autenticada
-		.and().csrf().disable() // Desabilitando proteção CSRF
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Configurando a autenticação stateless no Spring Security
-		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class); // Para registrar o filtro no Spring
+//		http.authorizeRequests()
+//		.antMatchers(HttpMethod.POST, "/auth").permitAll()
+//		.antMatchers(HttpMethod.GET, "/actuator/**").permitAll()
+//		.anyRequest().authenticated() // Qualquer outra requisição tem que estar autenticada
+//		.and().csrf().disable() // Desabilitando proteção CSRF
+//		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Configurando a autenticação stateless no Spring Security
+//		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class); // Para registrar o filtro no Spring
+		http
+		.cors().disable()
+		.csrf().disable()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().headers().frameOptions().sameOrigin()
+		.and().authorizeRequests().antMatchers("/h2-console/**", "/auth/**", "/actuator/**").permitAll()
+		.anyRequest().authenticated()
+		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userService),UsernamePasswordAuthenticationFilter.class);	
+	
 	}
 	
 	@Override

@@ -39,4 +39,9 @@ public class ContatoServiceImpl implements ContatoService {
 		return repository.searchByContato(nome, sobrenome, dataNascimento, apelido);
 	}
 
+	@Override
+	public void deleteById(Integer id) {
+		repository.deleteById(id);
+	}
+
 }
