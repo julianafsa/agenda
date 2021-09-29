@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 
 import io.swagger.v3.oas.models.security.SecurityScheme.In;
 import springfox.documentation.builders.PathSelectors;
@@ -13,11 +14,11 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.Contact;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import org.springframework.http.HttpHeaders;
 
 @Configuration
 public class SwaggerConfigurations {
@@ -39,24 +40,32 @@ public class SwaggerConfigurations {
 //                .parameterType("header")
 //                .required(false)
 //                .build()));		
-		return new Docket(DocumentationType.SWAGGER_2)
-			      .apiInfo(apiInfo())
-//			      .securityContexts(Arrays.asList(securityContext()))
-			      .securitySchemes(Arrays.asList(apiKey()))
-			      .select()
-			      .apis(RequestHandlerSelectors.basePackage("br.com.santander.agenda"))
-			      .paths(PathSelectors.any())
-			      .build();
+	    return new Docket(DocumentationType.SWAGGER_2)
+	    	      .apiInfo(apiInfo())
+	    	      .securityContexts(Arrays.asList(securityContext()))
+	    	      .securitySchemes(Arrays.asList(apiKey()))
+	    	      .select()
+	    	      .apis(RequestHandlerSelectors.basePackage("br.com.santander.agenda"))
+	    	      .paths(PathSelectors.any())
+	    	      .build();
 		
 	}
 	
 	private ApiInfo apiInfo() {
-		return new ApiInfo("Agenda de Contato", "1.0", 
-			null, null, null, null, null, Collections.emptyList());
-	}
+		return new ApiInfo(
+			"Agenda",
+			"API de agenda de contatos",
+			"1.0",
+			"Terms of service",
+			new Contact("Juliana Aquino", "www.juliana.com", "juliana@email.com"),
+			"License of API",
+			"API license URL",
+			Collections.emptyList());
+			}
 	
 	private ApiKey apiKey() { 
 	    return new ApiKey("JWT", HttpHeaders.AUTHORIZATION, In.HEADER.name()); 
+	    //return new ApiKey("JWT", "Authorization", "header");
 	}
 	
 	private SecurityContext securityContext() { 

@@ -24,7 +24,9 @@ import br.com.santander.agenda.model.form.AtualizacaoEnderecoForm;
 import br.com.santander.agenda.model.form.EnderecoForm;
 import br.com.santander.agenda.service.ContatoService;
 import br.com.santander.agenda.service.EnderecoService;
+import io.swagger.annotations.Api;
 
+@Api(tags = "Endereços")
 @RestController
 @RequestMapping("/enderecos")
 public class EnderecoController {

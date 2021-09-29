@@ -20,7 +20,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import br.com.santander.agenda.model.Contato;
 import br.com.santander.agenda.model.dto.ContatoDto;
 import br.com.santander.agenda.service.ContatoService;
+import io.swagger.annotations.Api;
 
+@Api(tags = "Contatos")
 @RestController
 @RequestMapping("/contatos")
 public class ContatoController {

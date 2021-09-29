@@ -24,8 +24,10 @@ import br.com.santander.agenda.model.form.AtualizacaoTelefoneForm;
 import br.com.santander.agenda.model.form.TelefoneForm;
 import br.com.santander.agenda.service.ContatoService;
 import br.com.santander.agenda.service.TelefoneService;
+import io.swagger.annotations.Api;
 import lombok.extern.log4j.Log4j2;
 
+@Api(tags = "Telefones")
 @RestController
 @RequestMapping("/telefones")
 @Log4j2

@@ -24,7 +24,9 @@ import br.com.santander.agenda.model.form.AtualizacaoEmailForm;
 import br.com.santander.agenda.model.form.EmailForm;
 import br.com.santander.agenda.service.ContatoService;
 import br.com.santander.agenda.service.EmailService;
+import io.swagger.annotations.Api;
 
+@Api(tags = "E-mails")
 @RestController
 @RequestMapping("/emails")
 public class EmailController {

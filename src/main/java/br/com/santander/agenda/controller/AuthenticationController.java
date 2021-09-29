@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.santander.agenda.config.security.TokenService;
 import br.com.santander.agenda.model.dto.TokenDto;
 import br.com.santander.agenda.model.form.LoginForm;
+import io.swagger.annotations.Api;
 
+@Api(tags = "Autenticação")
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
