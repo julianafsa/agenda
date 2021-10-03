@@ -73,7 +73,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 		.csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().headers().frameOptions().sameOrigin()
-		.and().authorizeRequests().antMatchers("/h2-console/**", "/auth/**", "/actuator/**").permitAll()
+		.and().authorizeRequests().antMatchers("/h2-console/**", "/auth/**", "/actuator/**", "*/file/*").permitAll()
 		.anyRequest().authenticated()
 		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userService),UsernamePasswordAuthenticationFilter.class);	
 	

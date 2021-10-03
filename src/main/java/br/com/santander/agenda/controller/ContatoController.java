@@ -1,5 +1,8 @@
 package br.com.santander.agenda.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -7,14 +10,17 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import br.com.santander.agenda.model.Contato;
@@ -28,6 +34,9 @@ import io.swagger.annotations.Api;
 public class ContatoController {
 
     private ContatoService service;
+    
+    @Value("${file.upload.dir}")
+    private String dir;
 
     public ContatoController(ContatoService contatoService) {
         this.service = contatoService;
@@ -67,5 +76,20 @@ public class ContatoController {
 			return ResponseEntity.ok().build();
 		}
 		return ResponseEntity.notFound().build();
+	}
+	
+	@PutMapping("/photo/{id}")
+	@Transactional
+	public ResponseEntity<?> uploadPhoto(@PathVariable Integer id, @RequestBody MultipartFile file) {
+		Optional<Contato> optional = service.getContact(id);
+		if (optional.isPresent()) {
+			if (file != null ) {
+				return ResponseEntity.ok().body(service.updatePhoto(file));				
+			} else {
+				return ResponseEntity.badRequest().body("Foto não anexada");	
+			}
+		}
+		return ResponseEntity.notFound().build();
+
 	}
 }
