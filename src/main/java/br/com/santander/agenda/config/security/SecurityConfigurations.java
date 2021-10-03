@@ -8,11 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import br.com.santander.agenda.repository.UserRepository;
 import br.com.santander.agenda.service.UserService;
 
 @EnableWebSecurity
@@ -68,15 +65,20 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 //		.and().csrf().disable() // Desabilitando proteção CSRF
 //		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Configurando a autenticação stateless no Spring Security
 //		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userRepository), UsernamePasswordAuthenticationFilter.class); // Para registrar o filtro no Spring
+//		http
+//		.cors().disable()
+//		.csrf().disable()
+//		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//		.and().headers().frameOptions().sameOrigin()
+//		.and().authorizeRequests().antMatchers("/h2-console/**", "/auth/**", "/actuator/**").permitAll()
+//		.anyRequest().authenticated()
+//		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userService),UsernamePasswordAuthenticationFilter.class);	
 		http
-		.cors().disable()
-		.csrf().disable()
-		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		.and().headers().frameOptions().sameOrigin()
-		.and().authorizeRequests().antMatchers("/h2-console/**", "/auth/**", "/actuator/**").permitAll()
+		.antMatcher("/**").authorizeRequests()
+		.antMatchers("/", "/user").permitAll()
 		.anyRequest().authenticated()
-		.and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, userService),UsernamePasswordAuthenticationFilter.class);	
-	
+		.and().oauth2Login()
+		.defaultSuccessUrl("/bloqueada");
 	}
 	
 	@Override
